@@ -1,8 +1,11 @@
 import React from "react";
 import FeedbackItem from "./FeedbackItem";
-import PropTypes from "prop-types";
 
-export default function FeedbackList({ feedbackdata, deleteFeedbackData }) {
+import { useContext } from "react";
+import FeedbackContext from "./Context/FeedbackContext";
+
+export default function FeedbackList() {
+  const { feedbackdata } = useContext(FeedbackContext);
   if (!feedbackdata || feedbackdata.length === 0) {
     return "No Feedback data is available to show";
   }
@@ -10,23 +13,9 @@ export default function FeedbackList({ feedbackdata, deleteFeedbackData }) {
     <>
       <div className="feedback-list">
         {feedbackdata.map((item) => (
-          <FeedbackItem
-            key={item.id}
-            item={item}
-            deleteFeedbackData={deleteFeedbackData}
-          />
+          <FeedbackItem key={item.id} item={item} />
         ))}
       </div>
     </>
   );
 }
-
-FeedbackList.propTypes = {
-  feedbackdata: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-    })
-  ),
-};
